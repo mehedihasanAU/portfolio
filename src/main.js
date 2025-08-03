@@ -340,15 +340,15 @@ manager.onLoad = function () {
     isDisabled = true;
 
     toggleFavicons();
-    backgroundMusic.play();
 
     if (!withSound) {
       isMuted = true;
       updateMuteState(true);
 
-      // Update the mute button UI to show muted state WITHOUT the animation
       soundOnSvg.style.display = "none";
       soundOffSvg.style.display = "block";
+    } else {
+      backgroundMusic.play();
     }
 
     playReveal();
@@ -1863,6 +1863,10 @@ const handleMuteToggle = (e) => {
   isMuted = !isMuted;
   updateMuteState(isMuted);
   buttonSounds.click.play();
+
+  if (!backgroundMusic.playing()) {
+    backgroundMusic.play();
+  }
 
   gsap.to(muteToggleButton, {
     rotate: -45,
