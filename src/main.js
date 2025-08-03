@@ -311,6 +311,7 @@ const manager = new THREE.LoadingManager();
 
 const loadingScreen = document.querySelector(".loading-screen");
 const loadingScreenButton = document.querySelector(".loading-screen-button");
+const noSoundButton = document.querySelector(".no-sound-button");
 
 manager.onLoad = function () {
   loadingScreenButton.style.border = "8px solid #2a0f4e";
@@ -323,9 +324,12 @@ manager.onLoad = function () {
     "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)";
   let isDisabled = false;
 
-  function handleEnter() {
+  noSoundButton.textContent = "Enter without Sound";
+
+  function handleEnter(withSound = true) {
     if (isDisabled) return;
 
+    noSoundButton.textContent = "";
     loadingScreenButton.style.cursor = "default";
     loadingScreenButton.style.border = "8px solid #6e5e9c";
     loadingScreenButton.style.background = "#ead7ef";
@@ -337,6 +341,16 @@ manager.onLoad = function () {
 
     toggleFavicons();
     backgroundMusic.play();
+
+    if (!withSound) {
+      isMuted = true;
+      updateMuteState(true);
+
+      // Update the mute button UI to show muted state WITHOUT the animation
+      soundOnSvg.style.display = "none";
+      soundOffSvg.style.display = "block";
+    }
+
     playReveal();
   }
 
@@ -352,11 +366,16 @@ manager.onLoad = function () {
 
   loadingScreenButton.addEventListener("click", (e) => {
     if (touchHappened) return;
-    handleEnter();
+    handleEnter(true);
   });
 
   loadingScreenButton.addEventListener("mouseleave", () => {
     loadingScreenButton.style.transform = "none";
+  });
+
+  noSoundButton.addEventListener("click", (e) => {
+    if (touchHappened) return;
+    handleEnter(false);
   });
 };
 

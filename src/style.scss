@@ -3,6 +3,8 @@
 @use "./styles/variables.scss" as vars;
 @use "./styles/defaults.scss" as media;
 
+// THIS SCSS CODE IS RUSHED AND SUPER BAD PLEASE DON'T LOOK AT IT LOOOOL
+
 $themes: (
   light: (
     base-dark-purple: #6c3f7c,
@@ -709,6 +711,25 @@ ul {
 
   @include media.media("<=tablet") {
     font-size: 32px;
+  }
+}
+
+.no-sound-button {
+  font-family: "Motley Forces";
+  @include vars.centered;
+  background-color: transparent;
+  border: none;
+  color: #c4bebe;
+
+  position: absolute;
+  bottom: 38%;
+  left: 50%;
+  font-size: 16px;
+  transform: translate(-50%, -50%);
+
+  &:hover {
+    color: #e6dede;
+    cursor: pointer;
   }
 }
 
