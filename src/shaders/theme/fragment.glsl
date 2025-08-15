@@ -30,6 +30,13 @@ void main() {
     }
     
     vec3 finalColor = mix(dayColor, nightColor, uMixRatio);
+
+    // Remove and add the other #includes if you want your glass to be unaffected
     finalColor = pow(finalColor, vec3(1.0/2.2));
     gl_FragColor = vec4(finalColor, 1.0);
+
+    // Use this instead of the pow() calculation to avoid issues with the glass
+    // I actually just like the white looking glass better.
+    // #include <tonemapping_fragment>
+    // #include <colorspace_fragment>
 }
