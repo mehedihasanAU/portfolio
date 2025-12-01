@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Admin Panel</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <!-- Login Screen -->
+  <div id="loginScreen" class="login-screen">
+    <div class="login-container">
+      <h1>Portfolio Admin</h1>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+        <div id="loginError" class="error-message"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Dashboard -->
+  <div id="adminDashboard" class="admin-dashboard" style="display: none;">
+    <!-- Header -->
+    <header class="admin-header">
+      <h1>Portfolio Admin Panel</h1>
+      <div class="header-actions">
+        <span id="adminUsername" class="username"></span>
+        <button id="logoutBtn" class="btn btn-secondary">Logout</button>
+      </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="admin-nav">
+      <button class="nav-btn active" data-section="about">About Me</button>
+      <button class="nav-btn" data-section="work">Work Experience</button>
+      <button class="nav-btn" data-section="publications">Publications</button>
+      <button class="nav-btn" data-section="contact">Contact Info</button>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="admin-content">
+      <!-- About Section -->
+      <section id="aboutSection" class="content-section active">
+        <h2>About Me</h2>
+        <form id="aboutForm" class="admin-form">
+          <div class="form-group">
+            <label for="aboutTitle">Title</label>
+            <input type="text" id="aboutTitle" name="title" required>
+          </div>
+          <div class="form-group">
+            <label for="aboutSubtitle">Subtitle</label>
+            <input type="text" id="aboutSubtitle" name="subtitle">
+          </div>
+          <div class="form-group">
+            <label for="aboutDescription">Description</label>
+            <textarea id="aboutDescription" name="description" rows="8" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="aboutImage">Profile Image URL</label>
+            <input type="text" id="aboutImage" name="image_url">
+            <button type="button" class="btn btn-secondary" onclick="uploadImage('aboutImage')">Upload Image</button>
+          </div>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+      </section>
+
+      <!-- Work Experience Section -->
+      <section id="workSection" class="content-section">
+        <h2>Work Experience</h2>
+        <button class="btn btn-primary" id="addWorkBtn">Add New Experience</button>
+        <div id="workList" class="item-list"></div>
+        
+        <!-- Work Form Modal -->
+        <div id="workModal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3 id="workModalTitle">Add Work Experience</h3>
+            <form id="workForm" class="admin-form">
+              <input type="hidden" id="workId" name="id">
+              <div class="form-group">
+                <label for="workTitle">Job Title</label>
+                <input type="text" id="workTitle" name="title" required>
+              </div>
+              <div class="form-group">
+                <label for="workCompany">Company</label>
+                <input type="text" id="workCompany" name="company" required>
+              </div>
+              <div class="form-group">
+                <label for="workPeriod">Period</label>
+                <input type="text" id="workPeriod" name="period" placeholder="e.g., Jan 2020 - Present">
+              </div>
+              <div class="form-group">
+                <label for="workDescription">Description</label>
+                <textarea id="workDescription" name="description" rows="6" required></textarea>
+              </div>
+              <div class="form-group">
+                <label for="workSkills">Skills (comma-separated)</label>
+                <textarea id="workSkills" name="skills" rows="3"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="workImage">Image URL</label>
+                <input type="text" id="workImage" name="image_url">
+                <button type="button" class="btn btn-secondary" onclick="uploadImage('workImage')">Upload Image</button>
+              </div>
+              <div class="form-group">
+                <label for="workOrder">Display Order</label>
+                <input type="number" id="workOrder" name="display_order" value="0">
+              </div>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- Publications Section -->
+      <section id="publicationsSection" class="content-section">
+        <h2>Publications & Projects</h2>
+        <button class="btn btn-primary" id="addPublicationBtn">Add New Publication</button>
+        <div id="publicationsList" class="item-list"></div>
+        
+        <!-- Publication Form Modal -->
+        <div id="publicationModal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3 id="publicationModalTitle">Add Publication</h3>
+            <form id="publicationForm" class="admin-form">
+              <input type="hidden" id="publicationId" name="id">
+              <div class="form-group">
+                <label for="publicationTitle">Title</label>
+                <input type="text" id="publicationTitle" name="title" required>
+              </div>
+              <div class="form-group">
+                <label for="publicationPublisher">Publisher</label>
+                <input type="text" id="publicationPublisher" name="publisher">
+              </div>
+              <div class="form-group">
+                <label for="publicationYear">Year</label>
+                <input type="number" id="publicationYear" name="year" min="1900" max="2100">
+              </div>
+              <div class="form-group">
+                <label for="publicationDescription">Description</label>
+                <textarea id="publicationDescription" name="description" rows="6"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="publicationUrl">URL</label>
+                <input type="url" id="publicationUrl" name="url">
+              </div>
+              <div class="form-group">
+                <label for="publicationImage">Image URL</label>
+                <input type="text" id="publicationImage" name="image_url">
+                <button type="button" class="btn btn-secondary" onclick="uploadImage('publicationImage')">Upload Image</button>
+              </div>
+              <div class="form-group">
+                <label for="publicationOrder">Display Order</label>
+                <input type="number" id="publicationOrder" name="display_order" value="0">
+              </div>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contactSection" class="content-section">
+        <h2>Contact Information</h2>
+        <form id="contactForm" class="admin-form">
+          <div class="form-group">
+            <label for="contactEmail">Email</label>
+            <input type="email" id="contactEmail" name="email">
+          </div>
+          <div class="form-group">
+            <label for="contactGithub">GitHub URL</label>
+            <input type="url" id="contactGithub" name="github">
+          </div>
+          <div class="form-group">
+            <label for="contactLinkedin">LinkedIn URL</label>
+            <input type="url" id="contactLinkedin" name="linkedin">
+          </div>
+          <div class="form-group">
+            <label for="contactInstagram">Instagram URL</label>
+            <input type="url" id="contactInstagram" name="instagram">
+          </div>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+      </section>
+    </main>
+
+    <!-- Success/Error Messages -->
+    <div id="notification" class="notification"></div>
+
+    <!-- Hidden file input for image uploads -->
+    <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
