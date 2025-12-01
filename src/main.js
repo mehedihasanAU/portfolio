@@ -1059,6 +1059,24 @@ const roomMaterials = {
   Fourth: createMaterialForTextureSet(4),
 };
 
+// Original materials for wooden objects (preserves color)
+const originalMaterials = {
+  First: new THREE.MeshBasicMaterial({ map: loadedTextures.day.First }),
+  Second: new THREE.MeshBasicMaterial({ map: loadedTextures.day.Second }),
+  Third: new THREE.MeshBasicMaterial({ map: loadedTextures.day.Third }),
+  Fourth: new THREE.MeshBasicMaterial({ map: loadedTextures.day.Fourth }),
+};
+
+// Apple Colors Materials
+const appleBlueMaterial = new THREE.MeshBasicMaterial({ color: 0x0071e3 });
+const appleDarkGrayMaterial = new THREE.MeshBasicMaterial({ color: 0x1d1d1f });
+const appleLightGrayMaterial = new THREE.MeshBasicMaterial({ color: 0xf5f5f7 });
+
+// Profile Picture Texture
+const profileTexture = textureLoader.load("/images/profile_pic.jpg");
+profileTexture.flipY = false;
+profileTexture.colorSpace = THREE.SRGBColorSpace;
+
 // Smoke Shader setup
 const smokeGeometry = new THREE.PlaneGeometry(1, 1, 16, 64);
 smokeGeometry.translate(0, 0.5, 0);
@@ -1395,14 +1413,28 @@ loader.load("/models/Room_Portfolio.glb", (glb) => {
         child.material = whiteMaterial;
       } else if (child.name.includes("Screen")) {
         child.material = new THREE.MeshBasicMaterial({
-          map: videoTexture,
+          map: profileTexture,
           transparent: true,
-          opacity: 0.9,
+          opacity: 1,
         });
+      } else if (child.name.includes("Boba") || child.name.includes("Lamp") || child.name.includes("Slipper")) {
+        // Apply Apple Blue to specific items
+        child.material = appleBlueMaterial;
       } else {
         Object.keys(textureMap).forEach((key) => {
           if (child.name.includes(key)) {
-            child.material = roomMaterials[key];
+            // Check for wooden objects to restore original color
+            if (child.name.includes("Plank") ||
+              child.name.includes("Floor") ||
+              child.name.includes("Table") ||
+              child.name.includes("Desk") ||
+              child.name.includes("Chair") ||
+              child.name.includes("Shelf") ||
+              child.name.includes("Wood")) {
+              child.material = originalMaterials[key];
+            } else {
+              child.material = roomMaterials[key];
+            }
 
             if (child.name.includes("Fan")) {
               if (
