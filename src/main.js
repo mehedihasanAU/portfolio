@@ -314,95 +314,23 @@ const loadingScreenButton = document.querySelector(".loading-screen-button");
 const noSoundButton = document.querySelector(".no-sound-button");
 
 manager.onLoad = function () {
-  loadingScreenButton.style.border = "8px solid #2a0f4e";
-  loadingScreenButton.style.background = "#2c2c2e";
-  loadingScreenButton.style.color = "#e6dede";
-  loadingScreenButton.style.boxShadow = "rgba(0, 0, 0, 0.24) 0px 3px 8px";
-  loadingScreenButton.textContent = "Enter!";
-  loadingScreenButton.style.cursor = "pointer";
-  loadingScreenButton.style.transition =
-    "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)";
-  let isDisabled = false;
+  // Auto-start without loading screen
+  toggleFavicons();
 
-  noSoundButton.textContent = "Enter without Sound :(";
+  // Set muted state UI
+  soundOnSvg.style.display = "none";
+  soundOffSvg.style.display = "block";
+  updateMuteState(true);
 
-  function handleEnter(withSound = true) {
-    if (isDisabled) return;
+  // Remove loading screen immediately
+  loadingScreen.remove();
+  isModalOpen = false;
 
-    noSoundButton.textContent = "";
-    loadingScreenButton.style.cursor = "default";
-    loadingScreenButton.style.border = "8px solid #6e5e9c";
-    loadingScreenButton.style.background = "#e5e5ea";
-    loadingScreenButton.style.color = "#6e5e9c";
-    loadingScreenButton.style.boxShadow = "none";
-    loadingScreenButton.textContent = "~ Welcome ~";
-    loadingScreen.style.background = "#e5e5ea";
-    isDisabled = true;
-
-    toggleFavicons();
-
-    if (!withSound) {
-      isMuted = true;
-      updateMuteState(true);
-
-      soundOnSvg.style.display = "none";
-      soundOffSvg.style.display = "block";
-    } else {
-      backgroundMusic.play();
-    }
-
-    playReveal();
-  }
-
-  loadingScreenButton.addEventListener("mouseenter", () => {
-    loadingScreenButton.style.transform = "scale(1.3)";
-  });
-
-  loadingScreenButton.addEventListener("touchend", (e) => {
-    touchHappened = true;
-    e.preventDefault();
-    handleEnter();
-  });
-
-  loadingScreenButton.addEventListener("click", (e) => {
-    if (touchHappened) return;
-    handleEnter(true);
-  });
-
-  loadingScreenButton.addEventListener("mouseleave", () => {
-    loadingScreenButton.style.transform = "none";
-  });
-
-  noSoundButton.addEventListener("click", (e) => {
-    if (touchHappened) return;
-    handleEnter(false);
-  });
+  // Start intro animation
+  playIntroAnimation();
 };
 
-function playReveal() {
-  const tl = gsap.timeline();
-
-  tl.to(loadingScreen, {
-    scale: 0.5,
-    duration: 1.2,
-    delay: 0.25,
-    ease: "back.in(1.8)",
-  }).to(
-    loadingScreen,
-    {
-      y: "200vh",
-      transform: "perspective(1000px) rotateX(45deg) rotateY(-35deg)",
-      duration: 1.2,
-      ease: "back.in(1.8)",
-      onComplete: () => {
-        isModalOpen = false;
-        playIntroAnimation();
-        loadingScreen.remove();
-      },
-    },
-    "-=0.1"
-  );
-}
+// Removed playReveal function - no longer needed
 
 function playIntroAnimation() {
   const t1 = gsap.timeline({
@@ -1897,7 +1825,7 @@ const handleMuteToggle = (e) => {
   });
 };
 
-let isMuted = false;
+let isMuted = true; // Start muted by default
 muteToggleButton.addEventListener(
   "click",
   (e) => {
