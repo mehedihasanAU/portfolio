@@ -105,7 +105,7 @@ const sizes = {
 };
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color("#D9CAD1");
+scene.background = new THREE.Color("#f5f5f7");
 
 const camera = new THREE.PerspectiveCamera(
   35,
@@ -315,7 +315,7 @@ const noSoundButton = document.querySelector(".no-sound-button");
 
 manager.onLoad = function () {
   loadingScreenButton.style.border = "8px solid #2a0f4e";
-  loadingScreenButton.style.background = "#401d49";
+  loadingScreenButton.style.background = "#2c2c2e";
   loadingScreenButton.style.color = "#e6dede";
   loadingScreenButton.style.boxShadow = "rgba(0, 0, 0, 0.24) 0px 3px 8px";
   loadingScreenButton.textContent = "Enter!";
@@ -332,11 +332,11 @@ manager.onLoad = function () {
     noSoundButton.textContent = "";
     loadingScreenButton.style.cursor = "default";
     loadingScreenButton.style.border = "8px solid #6e5e9c";
-    loadingScreenButton.style.background = "#ead7ef";
+    loadingScreenButton.style.background = "#e5e5ea";
     loadingScreenButton.style.color = "#6e5e9c";
     loadingScreenButton.style.boxShadow = "none";
-    loadingScreenButton.textContent = "~ 안녕하세요 ~";
-    loadingScreen.style.background = "#ead7ef";
+    loadingScreenButton.textContent = "~ Welcome ~";
+    loadingScreen.style.background = "#e5e5ea";
     isDisabled = true;
 
     toggleFavicons();
@@ -2076,7 +2076,7 @@ const render = (timestamp) => {
     // Get all the objects the raycaster is currently shooting through / intersecting with
     currentIntersects = raycaster.intersectObjects(raycasterObjects);
 
-    for (let i = 0; i < currentIntersects.length; i++) {}
+    for (let i = 0; i < currentIntersects.length; i++) { }
 
     if (currentIntersects.length > 0) {
       const currentIntersectObject = currentIntersects[0].object;

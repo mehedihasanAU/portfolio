@@ -7,11 +7,11 @@
 
 $themes: (
   light: (
-    base-dark-purple: #6c3f7c,
-    base-purple: #6e5e9c,
-    base-purple-200: #cdb3d6,
-    base-pink: #eedfe4,
-    base-light-purple: #ead7ef,
+    base-dark-purple: #6c3f7c, // Keep purple base
+    base-purple: #6e5e9c, // Keep purple base
+    base-purple-200: #d1d1d6, // Apple Light Gray (System Gray 4) - was #cdb3d6
+    base-pink: #f5f5f7, // Apple Light Gray Background - was #eedfe4
+    base-light-purple: #e5e5ea, // Apple System Gray 5 - was #ead7ef
     header-text: #6c3f7c,
     text: #020202,
     svgs: #6e5e9c,
@@ -19,9 +19,9 @@ $themes: (
   dark: (
     base-dark-purple: #ddd6d6,
     base-purple: #2a0f4e,
-    base-purple-200: #62416d,
-    base-pink: #8b4e62,
-    base-light-purple: #401d49,
+    base-purple-200: #636366, // Apple Dark Gray (System Gray 2) - was #62416d
+    base-pink: #1c1c1e, // Apple Dark Background - was #8b4e62
+    base-light-purple: #2c2c2e, // Apple Dark Gray (System Gray 5) - was #401d49
     header-text: #e6dede,
     text: #e6dede,
     svgs: #e6dede,
